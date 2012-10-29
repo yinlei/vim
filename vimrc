@@ -5,6 +5,9 @@
 "              Get latest vimrc from http://nootn.com/lab/vim
 " Version:     2.5.2
 "}}}
+" 设置光标
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
 " 设置leader为,
 let mapleader=","
