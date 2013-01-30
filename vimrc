@@ -15,7 +15,16 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 Bundle 'https://github.com/scrooloose/nerdtree.git'
+Bundle 'taglist.vim'
+"	Colorscheme
+Bundle 'molokai'
+Bundle 'nelstrom/vim-mac-classic-theme'
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'gmarik/ingretu'
 
+if has("gui_running")
+	colorscheme ingretu
+endif
 " 设置光标
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
@@ -86,7 +95,8 @@ set showmatch
 " 解决自动换行格式下, 如高度在折行之后超过窗口高度结果这一行看不到的问题
 set display=lastline
 " 设定配色方案
-"colorscheme molokai
+" colorscheme molokai
+colorscheme desert
 " 设置在状态行显示的信息
 set statusline=\ %<%F[%1*%M%*%n%R%H]%=\ %y\ %0(%{&fileformat}\ [%{(&fenc==\"\"?&enc:&fenc).(&bomb?\",BOM\":\"\")}]\ %c:%l/%L%)
 
@@ -511,3 +521,5 @@ nmap <F4> :NERDTree <CR>
 " :ColorClear      - clear all highlights
 " :ColorToggle     - toggle highlights
 " }}}
+
+filetype plugin indent on	" required!
