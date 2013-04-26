@@ -1,9 +1,4 @@
 " {{{
-" DesCRiption: 适合自己使用的vimrc文件，for Linux/Windows, GUI/Console
-" Last Change: 2011-09-01
-" Author:      Asins - asinsimple AT gmail DOT com
-"              Get latest vimrc from http://nootn.com/lab/vim
-" Version:     2.5.2
 "}}}
 
 " 设置vundle
