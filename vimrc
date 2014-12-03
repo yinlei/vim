@@ -13,6 +13,7 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'taglist.vim'
 Plugin 'c.vim'
 Plugin 'The-NERD-tree'
+Plugin 'snipMate'
 
 " 主题
 Plugin 'molokai'
