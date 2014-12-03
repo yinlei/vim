@@ -1,25 +1,40 @@
-" {{{
-"}}}
+" VIM 配置
 
-" 设置vundle
+" 插件配置 {{
 set nocompatible
 filetype off
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+"set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=$HOME/.vim/bundle/Vundle.vim
+call vundle#begin()
 
-Bundle 'gmarik/vundle'
-Bundle 'https://github.com/scrooloose/nerdtree.git'
-Bundle 'taglist.vim'
-"	Colorscheme
-Bundle 'molokai'
-Bundle 'nelstrom/vim-mac-classic-theme'
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'gmarik/ingretu'
+Plugin 'gmarik/Vundle.vim'
+
+Plugin 'taglist.vim'
+Plugin 'c.vim'
+Plugin 'The-NERD-tree'
+
+" 主题
+Plugin 'molokai'
+
+call vundle#end()
+filetype plugin indent on
+" }}
+
 
 if has("gui_running")
 	colorscheme ingretu
 endif
+
+if has("gui_running")
+    set guioptions-=m " 隐藏菜单栏
+    set guioptions-=T " 隐藏工具栏
+    set guioptions-=L " 隐藏左侧滚动条
+    set guioptions-=r " 隐藏右侧滚动条
+    set guioptions-=b " 隐藏底部滚动条
+    set showtabline=0 " 隐藏Tab栏
+endif
+
 " 设置光标
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
@@ -156,15 +171,6 @@ vnoremap <S-Del> d"+P
 "设置代码块折叠后显示的行数
 set foldexpr=1
 
-if has("gui_running")
-    set guioptions-=m " 隐藏菜单栏
-    set guioptions-=T " 隐藏工具栏
-    set guioptions-=L " 隐藏左侧滚动条
-    set guioptions-=r " 隐藏右侧滚动条
-    set guioptions-=b " 隐藏底部滚动条
-    set showtabline=0 " 隐藏Tab栏
-endif
-
 "编辑vim配置文件
 if has("unix")
     set fileformats=unix,dos,mac
@@ -242,70 +248,6 @@ nnoremap <leader>2 :set filetype=css<cr>
 nnoremap <leader>3 :set filetype=javascript<cr>
 nnoremap <leader>4 :set filetype=php<cr>
 
-" PHP Twig 模板引擎语法
-au BufRead,BufNewFile *.twig set syntax=twig
-
-" Python 文件的一般设置，比如不要 tab 等
-"autocmd FileType python set tabstop=4 shiftwidth=4 expandtab
-
-" 设置字典 ~/.vim/dict/文件的路径
-"autocmd filetype javascript set dictionary=$VIMFILES/dict/javascript.dic
-"autocmd filetype css set dictionary=$VIMFILES/dict/css.dic
-"autocmd filetype php set dictionary=$VIMFILES/dict/php.dic
-
-autocmd! FileType * exec "set dict+=$VIMFILES/dict/".&ft.".dic"
-"set tags+=$VIM/vimfiles/tags/normal/*
-"autocmd! FileType * exec "set tags+=$VIM/vimfiles/tags/".&ft."/*"
-"inoremap <expr><tab>  pumvisible() ? "\<c-n>" : "\<tab>"
-"inoremap <expr><s-tab>  pumvisible() ? "\<c-p>" : "\<tab>"
-
-
-"Check the syntax of a PHP file
-function! CheckPHPSyntax()
-    if &filetype != 'php'
-        echohl WarningMsg | echo 'This is not a PHP file !' | echohl None
-        return
-    endif
-    setlocal makeprg=php\ -l\ -n\ -d\ html_errors=off\ %
-    "setlocal makeprg=php\ -l\ -n\ %
-    setlocal errorformat=%m\ in\ %f\ on\ line\ %l
-    echohl WarningMsg | echo 'Syntax checking output:' | echohl None
-
-    if &modified == 1
-        silent write
-    endif
-    silent make
-    clist
-endfunction
-
-au filetype php map <F11> :call CheckPHPSyntax()<CR>
-
-"Run a PHP Script
-function! ExecutePHPScript()
-    if &filetype != 'php'
-        echohl WarningMsg | echo 'This is not a PHP file !' | echohl None
-        return
-    endif
-    setlocal makeprg=php\ -f\ %
-    setlocal errorformat=%m\ in\ %f\ on\ line\ %l
-    echohl WarningMsg | echo 'Execution output:' | echohl None
-    if &modified == 1
-        silent write
-    endif
-    silent make
-    clist
-endfunction
-
-"function! RunSelectPHPScript()
-    "'<,'>w !php
-"endfunction
-
-au filetype php nnoremap <C-F11> :call ExecutePHPScript()<CR>
-au filetype php inoremap <C-F11> <Esc> :call ExecutePHPScript()<CR>
-"au filetype php vnoremap <C-F11> <Esc> :call RunSelectPHPScript()<CR>
-
-
-
 " {{{ plugin - renamer.vim 文件重命名
 " :Renamer 将当前文件所在文件夹下的内容显示在一个新窗口
 " :Ren 开始重命名
@@ -362,19 +304,6 @@ au filetype php inoremap <C-F11> <Esc> :call ExecutePHPScript()<CR>
 "}}}
 
 
-" {{{ plugin – ZenCoding.vim 很酷的插件，HTML代码生成
-" 插件最新版：http://github.com/mattn/zencoding-vim
-" 常用命令可看：http://nootn.com/blog/Tool/23/
-"let g:user_zen_settings = {
-"\    'lang': "zh-cn"
-"\}
-" }}}
-
-
-" {{{ plugin - auto_mkdir.vim 自动创建目录
-" }}}
-
-
 " {{{ plugin - mru.vim 记录最近打开的文件
 "let MRU_File = $VIMFILES."/_vim_mru_files"
 "let MRU_Max_Entries = 1000
@@ -425,7 +354,6 @@ nmap <F3> :Tlist <CR>
 nmap <F2> :!ctags -R --c++-kinds=+px --fields=+iaS --extra=+q .<CR>
 " }}}
 
-
 " {{{ plugin - NERD_commenter.vim 注释代码用的，以下映射已写在插件中
 " <leader>ca 在可选的注释方式之间切换，比如C/C++ 的块注释/* */和行注释//
 " <leader>cc 注释当前行
@@ -434,7 +362,6 @@ nmap <F2> :!ctags -R --c++-kinds=+px --fields=+iaS --extra=+q .<CR>
 " <leader>cu 取消注释
 " <leader>cm 添加块注释
 " }}}
-
 
 " {{{ plugin - NERD_tree.vim 文件管理器
 " 让Tree把自己给装饰得多姿多彩漂亮点
@@ -461,42 +388,6 @@ nnoremap <Leader>tt :NERDTree<CR>
 nmap <F4> :NERDTree <CR>
 "}}}
 
-" {{{ plugin - DoxygenToolkit.vim 自动生成各种注释
-"let g:DoxygenToolkit_authorName="Asins - asinsimple AT gmail DOT com"
-"let s:licenseTag = "Copyright(C)\<enter>"
-"let s:licenseTag = s:licenseTag . "For Asins\<enter>"
-"let s:licenseTag = s:licenseTag . "Some right reserved\<enter>"
-"let g:DoxygenToolkit_licenseTag = s:licenseTag
-"let g:DoxygenToolkit_briefTag_funcName="yes"
-"let g:doxygen_enhanced_color=1
-"map <leader>da :DoxAuthor<cr>
-"map <leader>df :Dox<cr>
-"map <leader>db :DoxBlock<cr>
-"map <leader>dc a /*  */<left><left><left>
-" }}}
-
-
-" {{{ plugin - jsbeautify.vim 优化js代码，并不是简单的缩进，而是整个优化
-" 开始优化整个文件
-"nmap <silent> <leader>js :call g:Jsbeautify()<cr>
-" }}}
-
-" {{{  plugin - OpenUrl.vim 打开网址
-" map <F8> :OpenUrl<CR>
-" }}}
-
-" {{{ plugin - Calendar.vim 日历插件
-"nmap <Leader>ca :Calendar<CR>
-"let g:calendar_diary="D:\Asins_data\vimwiki\diary"
-"let g:calendar_smnd = 1
-"let g:calendar_monday = 1                   " week start with monday.
-"let g:calendar_weeknm = 1                   " don't work with g:calendar_diary
-"let g:calendar_mark = 'left-fit'            " let plus(+) near the date, like +8.
-"let g:calendar_mruler = '一月,二月,三月,四月,五月,六月,七月,八月,九月,十月,十一月,十二月'
-"let g:calendar_wruler = '日 一 二 三 四 五 六'
-"let g:calendar_navi_label = '上月,本月,下月'
-" }}}
-
 " {{{ plugin - Session.vim 会话记录
 "自动载入会话
 "let g:session_autoload = 1
@@ -508,13 +399,6 @@ nmap <F4> :NERDTree <CR>
 "set shellpipe=2>&1\|tee
 "set shellredir=>%s\ 2>&1
 "let g:session_directory=$VIMFILES
-" }}}
-
-" {{{ 颜色显示插件 colorizer.vim
-" ,tc 切换高亮
-" :ColorHighlight  - start/update highlighting
-" :ColorClear      - clear all highlights
-" :ColorToggle     - toggle highlights
 " }}}
 
 filetype plugin indent on	" required!
